@@ -1,0 +1,114 @@
+\section{Arbitrage Pricing Theory}
+\label{sec:arbitrage_pricing_theory}
+In this section we'll briefly discuss Arbitrage Pricing Theory (APT), and how it generalizes the Capital Asset Pricing Model (CAPM) as well as 
+how Fama-Macbeth regressions can be used to estimate risk premia. The purpose of this section is not to be comprehensive,
+but to briefly introduce concepts, as well as the code used when implementing portfolios in a systematic risk framework.
+
+\subsection{Arbitrage Pricing Theory}
+We've discussed \citet{fama_french_1993} and the Size and Value risk factors it proposes.
+Throughout the article so far we've focused on one source of systematic risk, market risk.
+From now on we will include the Size and Value factors in our equation for expected returns.
+
+This multi-factor model has the form as per Equation~{\ref{eq:multi_factor}}. This is the model given by Arbitrage Pricing Theory (APT).
+
+\begin{equation}
+    \label{eq:multi_factor}
+    E[R_i] = R_f + \beta_{i,m} \gamma_m + \beta_{i,s} \gamma_s + \beta_{i,v} \gamma_v
+\end{equation}
+Where:
+\begin{itemize}
+    \item $E[R_i]$ is the expected return of asset $i$
+    \item $R_f$ is the risk-free rate
+    \item $\beta_{i,m}$ is the asset's exposure to the market risk factor
+    \item $\beta_{i,s}$ is the asset's exposure to the size risk factor
+    \item $\beta_{i,v}$ is the asset's exposure to the value risk factor
+    \item $\gamma_m$ is the market risk premium
+    \item $\gamma_s$ is the size risk premium
+    \item $\gamma_v$ is the value risk premium
+\end{itemize}
+
+For an asset $i$, the expected return is a function of its exposure to the market, size, and value risk factors, as represented by the Betas.
+Risk premia are the expected returns of the systematic risk factors, and they are the same for all assets. Recall in the CAPM model, we were concerned only with
+the market risk premium, now we have three risk premia.
+
+We used to get the market risk premia by taking the average market return over our data period, but we will now introduce a way to get
+the risk premia for the size and value factors.
+
+\subsection{Fama-Macbeth Regressions}
+Fama-Macbeth regressions are a two stage process that allows us to get the risk premia and factor sensitivities for a set of risk factors.
+
+The first stage is a cross-sectional regression of the asset returns against the risk factors.
+This gives us the factor sensitivities (betas) for each asset.
+The second stage is a time-series regression of the factor sensitivities against the risk factors.
+This gives us the risk premia for each factor at every time-step T.
+
+Stage 1 is given by Equation~{\ref{eq:stage_1}}:
+\begin{equation}
+    \label{eq:stage_1}
+    R_i = \alpha + \beta_{i,m} R_m + \beta_{i,s} R_s + \beta_{i,v} R_v + \epsilon
+\end{equation}
+Where:
+\begin{itemize}
+    \item $R_i$ is the return of asset $i$
+    \item $\alpha$ is the intercept of the regression line
+    \item $\beta_{i,m}$ is the asset's exposure to the market risk factor
+    \item $\beta_{i,s}$ is the asset's exposure to the size risk factor
+    \item $\beta_{i,v}$ is the asset's exposure to the value risk factor
+    \item $R_m$ is the market return
+    \item $R_s$ is the size return
+    \item $R_v$ is the value return
+    \item $\epsilon$ is the error term
+\end{itemize}
+The second stage is given by Equation~{\ref{eq:stage_2}}:
+\begin{equation}
+    \label{eq:stage_2}
+    R_m = \alpha + \gamma_m R_m + \gamma_s R_s + \gamma_v R_v + \epsilon
+\end{equation}
+Where:
+\begin{itemize}
+    \item $R_m$ is the market return
+    \item $\alpha$ is the intercept of the regression line
+    \item $\gamma_m$ is the market risk premium
+    \item $\gamma_s$ is the size risk premium
+    \item $\gamma_v$ is the value risk premium
+    \item $R_s$ is the size return
+    \item $R_v$ is the value return
+    \item $\epsilon$ is the error term
+\end{itemize}
+
+We then take an average of the timeseries regression coefficients to get the risk premia for each factor.
+These risk premia are also referred to as factor returns, since they are the expected returns of the risk factors.
+
+If we take the cumulative sum of these risk premia coefficients, we can visually see the performance of the risk factors over time.
+We can see this in figure \ref{fig:factor_returns}, where we plot the cumulative sum of the risk premia for the size and value factors.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/factor_returns.png}
+    \caption{Plot showing the cumulative sum of the risk premia for the market, size and value factors}
+    \label{fig:factor_returns}
+\end{figure}
+
+We can take the averages of these coefficients to get the risk premia for each factor.
+
+We need two parts to contruct portfolios, expected returns and risk.
+We can get the expected returns from the Fama-Macbeth regressions, and we now, since we 
+believe that returns are only a function of risk factors, we can usse the covariance matrix of the risk factors to get the risk of the portfolio.
+This greatly reduces the dimensionality of the problem, since we only need to estimate the covariance matrix of the risk factors, and not the covariance matrix of the assets.
+
+Table \ref{tab:sample_assets_fama_macbeth} shows the Fama-Macbeth regression coefficients for a few sample assets.
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{Asset} & \textbf{Market Beta} & \textbf{Size Beta} & \textbf{Value Beta}\\
+        \hline
+        AAPL & 1.10 & 0.20 & 0.30\\
+        GE & 0.92 & 0.15 & 0.25\\
+        IBM & 0.75 & 0.10 & 0.20\\
+        KO & 0.49 & 0.05 & 0.10\\
+        MSFT & 1.14 & 0.25 & 0.35\\
+        \hline
+    \end{tabular}
+    \caption{Sample assets and their Fama-Macbeth regression coefficients}
+    \label{tab:sample_assets_fama_macbeth}
+\end{table}

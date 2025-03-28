@@ -1,0 +1,34 @@
+\section{Data}
+\label{sec:data}
+% Description of the dataset used for analysis
+We use Python \citep{python3}, Pandas \citep{reback2020pandas}, NumPy \citep{harris2020array}, Statsmodels \citep{seabold2010statsmodels} to analyze S\&P 500 price data from Finaeon's Global Financial Dataset \citep{finaeon} and the Fama-French 3-factor data library \citep{french_website}. 
+We use Matplotlib for plotting \citep{Hunter2007}.
+We get the S\&P500's current constituents from the Finaeon website, and download a time-series of daily prices for each stock using Finaeon's API. 
+Kenneth french's website \citep{french_website} provides the risk-free rate, market excess return, and daily returns of the Size and Value portfolios. 
+The risk-free rate they provide is the 1-month T-bill rate, and the market risk premium is the difference between the total US stock market's return and the risk-free rate.
+The size and value portfolios are constructed according to \citet{fama_french_1993}.
+By only using the return histories of the current S\&P 500 constituents, we introduce a survivorship bias in our analysis. Any risk premia we include will be biased upwards, as we only consider firms that have survived to the present day.
+The purpose of this article is to introduce concepts of modern portfolio theory, and not to provide a comprehensive analysis of risk factors and premia, so we
+note this deficiency and move forward with our analysis.
+
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Company Name} & \textbf{Ticker}\\
+        \hline
+        Apple Inc. & AAPL\\
+        General Electric Co. & GE\\
+        International Business Machines Corp. & IBM\\
+        The Coca-Cola Company & KO\\
+        Microsoft Corp. & MSFT\\
+        \hline
+    \end{tabular}
+    \caption{Sample assets and their full names}
+    \label{tab:sample_assets_w_names}
+\end{table}
+
+Throughout this article, we'll use a few sample assets to illustrate concepts. We'll refer to them by ticker symbol, and their full names are shown in table \ref{tab:sample_assets_w_names}.
+These are randomly chosen from the S\&P 500, and are not meant to be representative of the index as a whole.
+
+% #TODO: Show a snippet of the data. Mention any windsorizing.

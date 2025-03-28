@@ -1,0 +1,68 @@
+\documentclass[11pt,a4paper,english]{article}
+\usepackage{natbib}  % Adds support for different citation styles
+\bibliographystyle{chicago}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+\usepackage{blindtext}
+\usepackage[nodayofweek,level]{datetime}
+\newdate{date}{25}{03}{2025}
+\date{\displaydate{date}}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\doublespacing
+
+
+
+\title{Building Efficient Portfolios
+\thanks{Code and data supporting this analysis is available at: \url{https://github.com/Aman-Rana-02/Efficient_Market_Portfolios}}}
+\author{%
+  Aman Rana\\
+  \small Department of Computer Science\\
+  \small University of Toronto\\
+  \small\texttt{aman.rana@mail.utoronto.ca}
+}
+
+\begin{document}
+  \maketitle
+
+  \begin{abstract}
+    \noindent This article provides a brief and accessible overview of three fundamental concepts in modern portfolio theory: the Capital Asset Pricing Model (CAPM), Markowitz Mean-Variance Optimization (MVO), and Arbitrage Pricing Theory (APT). 
+    We begin by exploring the CAPM, which describes the relationship between systematic risk and expected return for assets, particularly stocks. 
+    Next, we delve into Markowitz MVO, a framework for assembling a portfolio of assets such that the expected return is maximized for a given level of risk, using this to build the efficient frontier.
+     Finally, we examine APT, which extends the ideas of CAPM by considering multiple factors that might affect asset returns.
+     We conclude by discussing the advantages and limitations of these models.
+  \end{abstract}
+
+  \newpage
+  \tableofcontents
+
+  \newpage
+
+  \input{01-introduction}
+
+  \input{02-data}
+ 
+  \input{03-capital_asset_pricing_model}
+
+  \input{04-diversification_and_portfolios}
+
+  \input{05-arbitrage_pricing_theory}
+
+  \input{06-conclusion}
+
+  \newpage
+  \bibliographystyle{chicago}
+  \bibliography{references}
+
+  \newpage
+  \section*{Appendix}
+  \renewcommand{\thesection}{\Alph{section}}
+  \setcounter{section}{0}
+  \input{07-appendix}
+\end{document}
