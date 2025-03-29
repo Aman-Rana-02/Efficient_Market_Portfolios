@@ -31,6 +31,15 @@ For an asset $i$, the expected return is a function of its exposure to the marke
 Risk premia are the expected returns of the systematic risk factors, and they are the same for all assets. Recall in the CAPM model, we were concerned only with
 the market risk premium, now we have three risk premia.
 
+Table ~\ref{tab:sample_asset_exposures} shows the exposures of a few sample assets to the market, size and value risk factors.
+
+\begin{table}
+    \centering
+    \input{../figs/factor_betas.tex}
+    \caption{Sample assets and their exposures to the market, size and value risk factors}
+    \label{tab:sample_asset_exposures}
+\end{table}
+
 We used to get the market risk premia by taking the average market return over our data period, but we will now introduce a way to get
 the risk premia for the size and value factors.
 
@@ -59,21 +68,20 @@ Where:
     \item $R_v$ is the value return
     \item $\epsilon$ is the error term
 \end{itemize}
-The second stage is given by Equation~{\ref{eq:stage_2}}:
+The second stage is given by Equation~{\ref{eq:stage_2}}, where we're estimating the gammas using the betas from the first stage at every time period
+t.
 \begin{equation}
     \label{eq:stage_2}
-    R_m = \alpha + \gamma_m R_m + \gamma_s R_s + \gamma_v R_v + \epsilon
+    R_t = \gamma_{0,t} + \gamma_{m,t} \beta_{i,m} + \gamma_{s,t} \beta_{i,s} + \gamma_{v,t} \beta_{i,v} + \epsilon_t
 \end{equation}
 Where:
 \begin{itemize}
-    \item $R_m$ is the market return
-    \item $\alpha$ is the intercept of the regression line
-    \item $\gamma_m$ is the market risk premium
-    \item $\gamma_s$ is the size risk premium
-    \item $\gamma_v$ is the value risk premium
-    \item $R_s$ is the size return
-    \item $R_v$ is the value return
-    \item $\epsilon$ is the error term
+    \item $R_t$ is the return of the portfolio at time $t$
+    \item $\gamma_{0,t}$ is the intercept of the regression line at time $t$
+    \item $\gamma_{m,t}$ is the market risk premium at time $t$
+    \item $\gamma_{s,t}$ is the size risk premium at time $t$
+    \item $\gamma_{v,t}$ is the value risk premium at time $t$
+    \item $\epsilon_t$ is the error term at time $t$
 \end{itemize}
 
 We then take an average of the timeseries regression coefficients to get the risk premia for each factor.
@@ -83,32 +91,56 @@ If we take the cumulative sum of these risk premia coefficients, we can visually
 We can see this in figure \ref{fig:factor_returns}, where we plot the cumulative sum of the risk premia for the size and value factors.
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/factor_returns.png}
+    \includegraphics[width=0.8\textwidth]{../figs/factor_returns.png}
     \caption{Plot showing the cumulative sum of the risk premia for the market, size and value factors}
     \label{fig:factor_returns}
 \end{figure}
 
-We can take the averages of these coefficients to get the risk premia for each factor.
+We can take the averages of these coefficients to get the risk premia for each factor. The results are shown in table \ref{tab:expected_factor_returns}.
+The negative premia we see on size and value factors come from a mix of using a small sample of assets, namely the bias from using the current constituents S\&P 500, our relatively short
+lookback period of 10 years, and how value has underperformed in the ast few years.
 
-We need two parts to contruct portfolios, expected returns and risk.
+We need two parts to construct portfolios, expected returns and risk.
 We can get the expected returns from the Fama-Macbeth regressions, and we now, since we 
-believe that returns are only a function of risk factors, we can usse the covariance matrix of the risk factors to get the risk of the portfolio.
+believe that returns are only a function of risk factors, we can use the covariance matrix of the risk factors to get the risk of the portfolio.
 This greatly reduces the dimensionality of the problem, since we only need to estimate the covariance matrix of the risk factors, and not the covariance matrix of the assets.
+Expected returns for APT portfolios are still weighted sums of the expected returns of the component assets. Risk is given slightly differently, as we are now using the covariance matrix of the risk factors, and not the covariance matrix of the assets.
+The expected risk is given by Equation~{\ref{eq:apt_portfolio_risk}}:
+\begin{equation}
+    \label{eq:apt_portfolio_risk}
+    \sigma_p^2 = w^T \Sigma w
+\end{equation}
+Where:
+\begin{itemize}
+    \item $\sigma_p^2$ is the variance of the portfolio
+    \item $w$ is the vector of weights of the assets in the portfolio
+    \item $\Sigma$ is the covariance matrix of the risk factors
+\end{itemize}
 
-Table \ref{tab:sample_assets_fama_macbeth} shows the Fama-Macbeth regression coefficients for a few sample assets.
+Table~\ref{tab:apt_expected_returns} shows the expected returns for a few sample assets.
+Table~\ref{tab:factor_cov_matrix} shows the covariance matrix of the risk factors.
+
 \begin{table}
     \centering
-    \begin{tabular}{|c|c|c|c|}
-        \hline
-        \textbf{Asset} & \textbf{Market Beta} & \textbf{Size Beta} & \textbf{Value Beta}\\
-        \hline
-        AAPL & 1.10 & 0.20 & 0.30\\
-        GE & 0.92 & 0.15 & 0.25\\
-        IBM & 0.75 & 0.10 & 0.20\\
-        KO & 0.49 & 0.05 & 0.10\\
-        MSFT & 1.14 & 0.25 & 0.35\\
-        \hline
-    \end{tabular}
-    \caption{Sample assets and their Fama-Macbeth regression coefficients}
-    \label{tab:sample_assets_fama_macbeth}
+    \vspace{1em}
+    \input{../figs/expected_factor_returns.tex}
+    \caption{Expected factor returns for the market, size and value factors}
+    \label{tab:expected_factor_returns}
+    \vspace{1em}
+\end{table}
+\begin{table}
+    \centering
+    \vspace{1em}
+    \input{../figs/apt_expected_returns.tex}
+    \caption{Expected returns according to APT for a few sample assets}
+    \label{tab:apt_expected_returns}
+    \vspace{1em}
+\end{table}
+\begin{table}
+    \centering
+    \vspace{1em}
+    \input{../figs/factor_cov_matrix.tex}
+    \caption{Factor covariance matrix for the market, size and value factors}
+    \label{tab:factor_cov_matrix}
+    \vspace{1em}
 \end{table}

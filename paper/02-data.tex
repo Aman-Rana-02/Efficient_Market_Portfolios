@@ -7,7 +7,7 @@ We get the S\&P500's current constituents from the Finaeon website, and download
 Kenneth french's website \citep{french_website} provides the risk-free rate, market excess return, and daily returns of the Size and Value portfolios. 
 The risk-free rate they provide is the 1-month T-bill rate, and the market risk premium is the difference between the total US stock market's return and the risk-free rate.
 The size and value portfolios are constructed according to \citet{fama_french_1993}.
-By only using the return histories of the current S\&P 500 constituents, we introduce a survivorship bias in our analysis. Any risk premia we include will be biased upwards, as we only consider firms that have survived to the present day.
+By only using the return histories of the current S\&P 500 constituents, we introduce a survivorship bias in our analysis. Any risk premia we include will be biased, as we only consider firms that have survived to the present day, and are large.
 The purpose of this article is to introduce concepts of modern portfolio theory, and not to provide a comprehensive analysis of risk factors and premia, so we
 note this deficiency and move forward with our analysis.
 
@@ -31,4 +31,12 @@ note this deficiency and move forward with our analysis.
 Throughout this article, we'll use a few sample assets to illustrate concepts. We'll refer to them by ticker symbol, and their full names are shown in table \ref{tab:sample_assets_w_names}.
 These are randomly chosen from the S\&P 500, and are not meant to be representative of the index as a whole.
 
-% #TODO: Show a snippet of the data. Mention any windsorizing.
+\begin{table}[ht]
+    \centering
+    \vspace{1em}
+    \input{../figs/sample_returns_table.tex}
+    \caption{Sample of the dataframe used for analysis, RF, MKT, SMB, HML are the daily risk-free rate, market excess return, size and value portfolio returns respectively.}
+    \vspace{1em}
+\end{table}
+
+We clean the data by removing outliers, windsorizing the returns to be within 3 standard deviations of the mean. This helps ensure that our analyses are not influenced by extreme market movements which may be the result of data errors or unusual events.

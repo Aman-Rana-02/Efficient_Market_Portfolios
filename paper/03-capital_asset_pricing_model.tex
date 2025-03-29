@@ -16,7 +16,7 @@ The model is given by Equation \ref{eq:capm}, where:
     \item $E[R_m]$ is the expected return of the market
 \end{itemize}
 
-Notice that according to the model, a firm's expected return is only a function of its expsure to the market's risk.
+Notice that according to the model, a firm's expected return is only a function of its exposure to the market's risk.
 This comes from a fundamental belief that in the long-run, any firm-specific/idiosyncratic risk can be diversified away, therefore
 investors look to be compensated for the risk that cannot be diversified away, which is the market risk.
 
@@ -37,7 +37,7 @@ Where:
     \item $\epsilon$ is the error term
 \end{itemize}
 
-$\alpha$ is known as Jensen's alpha, it is a reflection of how much a firm under or outperforms the market, given its beta.
+$\alpha$ is also known as Jensen's alpha, it is a reflection of how much a firm under or outperforms the market, given its beta.
 In a world where CAPM perfectly models a firm's returns, $\alpha$ should be zero.
 
 \begin{table}
@@ -62,6 +62,30 @@ exposed to the market's risk, and therefore should have higher expected returns.
 
 We can see this more clearly in figure \ref{fig:historical_expected_returns_vs_beta}, where we plot the historical 
 average annualized return against a firm's beta. We can see that there is a positive relationship between beta and expected return.
+In this same plot we add the Security Market Line (SML), which is the line that represents the expected return of an asset given its beta.
+We notice that not all stocks lie on this line, stocks above this line are out performing their expected return, and stocks below this line are under performing their expected return.
+But, this evaluation of performance is only valid if we assume that the CAPM is a perfect model of the market, which it may not be.
+To note is that we already discussed the Fama-French 3 factor model which is already an extension showing that the CAPM model is underspecified.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{../figs/historical_expected_returns_vs_beta.png}
+    \caption{Plot showing the historical average annualized return against a firm's beta}
+    \label{fig:historical_expected_returns_vs_beta}
+\end{figure}
+
+Working backwards, we can get the CAPM expected return for a firm by multiplying each firm's CAPM beta by the average market return over the period.
+Table~\ref{tab:sample_asset_capm_and_expected_return_table} shows the expected returns for a few sample assets, given their CAPM and the average market return.
+
+\begin{table}
+    \centering
+    \vspace{1em}
+    \input{../figs/sample_asset_capm_and_expected_return_table.tex}
+    \caption{Sample assets and their expected returns using the CAPM}
+    \label{tab:sample_asset_capm_and_expected_return_table}
+    \vspace{1em}
+    \centering
+\end{table}
 
 \subsection{Cost of Capital - DDM vs CAPM}
 % Explain the cost of capital
@@ -76,7 +100,7 @@ A DDM feels more realistic the better we can forecast a firm's future dividends,
 If we start to consider that there are firms that don't pay dividends at all, or that the dividend growth rate is hard to forecast, we start to see the limitations of the DDM.
 Additionally, if we are investors that don't care about dividend payouts, we may not find the DDM useful at all.
 
-The CAPM, on the other hand, is a model that is based on the idea that investors are compensated for the risk they take on. If a risk can be diversified away, then
+The CAPM, on the other hand, is a model that is based on the idea that investors are compensated for the systematic risk they take on. If a risk can be diversified away, then
 investors shouldn't be compensated for it (as they can get rid of it).
 If markets are efficient, and investors are rational, then the current stock price should reflect all available information about a firm.
 There is no need to forecast dividends, or growth rates, or anything else about the firm. We only need to know the firm's exposure to systematic risk.

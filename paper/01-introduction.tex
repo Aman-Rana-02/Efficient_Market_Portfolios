@@ -1,12 +1,26 @@
 \section{Introduction}
 \label{sec:introduction}
-TODO the INTRO!!!!!
+Modern portfolio theory is built on the premise that investors can optimize their returns by balancing systematic risk exposures.
+Over time, several frameworks have emerged to guide this optimization.
+The Capital Asset Pricing Model (CAPM) came first, based on the belief that market risk drove expected returns, 
+suggesting that firm-specific risks can be diversified away and markets priced all risk. 
+Markowitz Mean-Variance Optimization (MVO) builds on this notion of diversification,
+we demonstrate how optimal portfolios can be created to minimize risk for a targeted return.
+Arbitrage Pricing Theory (APT) extends beyond a single factor by incorporating multiple risk factors (such as size and value)
+to more accurately capture the sources of systematic risk.
+
+In this article, we use historical price data for S\&P 500 constituents gathered from Finaeon's Global Financial Dataset, and offer code and notes.
+First, we describe how the data is assembled and highlight potential biases such as survivorship bias.
+Next, we delve into the CAPM, showing how betas are estimated and how they relate to expected returns.
+We then explore deriving an efficient frontier of optimal portfolios.
+Finally, we discuss the APT approach, including how Fama-Macbeth regressions help estimate multiple factor betas and risk premia.
+We provide a brief overview of how these models shape efficient portfolio construction.
 
 The remainder of the article is structured as follows:
 \begin{itemize}
     \item Section~\ref{sec:data} provides an overview of the dataset used for analysis.
     \item Section~\ref{sec:capital_asset_pricing_model} explores the Capital Asset Pricing Model (CAPM) and its implications.
     \item Section~\ref{sec:diversification_and_portfolios} discusses the importance of diversification and the construction of efficient portfolios.
-    \item Section~\ref{sec:arbitrage_pricing_theory} delves into the Arbitrage Pricing Theory (APT) and its applications.
+    \item Section~\ref{sec:arbitrage_pricing_theory} touches on Arbitrage Pricing Theory (APT) and its applications.
     \item Section~\ref{sec:conclusion} concludes by discussing limitations of the methods discussed.
 \end{itemize}
